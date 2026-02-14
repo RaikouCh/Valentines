@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Your Eyes Only</title>
+    <meta name="theme-color" content="#ff4d8d" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body data-vfx="hearts" data-vfx-count="16" data-theme-ready="0">
+    <main class="page" role="main">
+      <section class="left-panel" aria-label="Valentine card">
+        <div class="left-inner">
+          <img
+            class="cat-gif"
+            src="https://media.tenor.com/76BaX0eo304AAAAi/kitty-kitty-heart.gif"
+            alt="Cute cat with hearts"
+            loading="eager"
+          />
+
+          <h1 class="headline">For your eyes only</h1>
+          <p class="subhead">Enter our monthsary to continue</p>
+          <p class="hint">Tip: you can type with your keyboard too.</p>
+        </div>
+      </section>
+
+      <section class="right-panel" aria-label="Passcode entry">
+        <div class="right-inner">
+          <div class="dots" aria-label="Passcode dots" role="group">
+            <span class="dot" data-dot="0" aria-hidden="true"></span>
+            <span class="dot" data-dot="1" aria-hidden="true"></span>
+            <span class="dot" data-dot="2" aria-hidden="true"></span>
+            <span class="dot" data-dot="3" aria-hidden="true"></span>
+          </div>
+
+          <p id="status" class="status" aria-live="polite"></p>
+
+          <div class="keypad" role="group" aria-label="Number keypad">
+            <button class="key" type="button" data-key="1" aria-label="1">1</button>
+            <button class="key" type="button" data-key="2" aria-label="2">2</button>
+            <button class="key" type="button" data-key="3" aria-label="3">3</button>
+            <button class="key" type="button" data-key="4" aria-label="4">4</button>
+            <button class="key" type="button" data-key="5" aria-label="5">5</button>
+            <button class="key" type="button" data-key="6" aria-label="6">6</button>
+            <button class="key" type="button" data-key="7" aria-label="7">7</button>
+            <button class="key" type="button" data-key="8" aria-label="8">8</button>
+            <button class="key" type="button" data-key="9" aria-label="9">9</button>
+
+            <button class="key" type="button" data-key="0" aria-label="0">0</button>
+          </div>
+
+          <!-- Hidden input so mobile users can also type digits via keyboard if they want -->
+          <input
+            id="passcode-hidden"
+            class="sr-only"
+            type="password"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            maxlength="4"
+            aria-label="Passcode"
+          />
+        </div>
+      </section>
+    </main>
+
+    <script src="theme.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

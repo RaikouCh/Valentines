@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Memories</title>
+    <meta name="theme-color" content="#ff4d8d" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="theme.css" />
+    <style>
+      :root {
+        --pink-1: #f7b1c8;
+        --pink-2: #d884b1;
+        --paper: rgba(255, 255, 255, 0.86);
+        --ink: rgba(25, 18, 25, 0.9);
+        --muted: rgba(25, 18, 25, 0.62);
+        --stroke: rgba(60, 20, 45, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: Delius, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(900px 600px at 18% 10%, rgba(255, 255, 255, 0.22), transparent 58%),
+          radial-gradient(900px 600px at 82% 38%, rgba(255, 255, 255, 0.18), transparent 58%),
+          linear-gradient(180deg, var(--pink-1), var(--pink-2));
+        overflow-x: hidden;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        min-height: 100svh;
+        padding: 26px 18px 40px;
+      }
+
+      .topbar {
+        width: min(1040px, 100%);
+        margin: 0 auto 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .title {
+        margin: 0;
+        font-size: clamp(22px, 3.2vw, 34px);
+        letter-spacing: 0.2px;
+        text-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+      }
+
+      .subtitle {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        font-size: 14px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(40, 20, 40, 0.24);
+        background: rgba(255, 255, 255, 0.2);
+        color: rgba(40, 20, 40, 0.88);
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+        backdrop-filter: blur(6px);
+      }
+      .btn:hover {
+        background: rgba(255, 255, 255, 0.28);
+      }
+      .btn.primary {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.45);
+        animation: pulse 1.9s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0% {
+          transform: translateY(0);
+          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+        }
+        50% {
+          transform: translateY(-1px);
+          box-shadow: 0 22px 54px rgba(0, 0, 0, 0.22);
+        }
+        100% {
+          transform: translateY(0);
+          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+        }
+      }
+
+      .board {
+        width: min(1040px, 100%);
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 24px;
+        padding: clamp(14px, 2.4vw, 22px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .board::before {
+        content: "";
+        position: absolute;
+        inset: -140px;
+        background:
+          radial-gradient(closest-side at 12% 15%, rgba(255, 255, 255, 0.25), transparent 62%),
+          radial-gradient(closest-side at 85% 40%, rgba(255, 255, 255, 0.16), transparent 60%),
+          radial-gradient(closest-side at 42% 92%, rgba(255, 255, 255, 0.18), transparent 64%);
+        transform: rotate(-8deg);
+        pointer-events: none;
+      }
+
+      .grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-auto-rows: 32px;
+        gap: 14px;
+        z-index: 1;
+      }
+
+      .piece {
+        border-radius: 18px;
+        border: 1px solid var(--stroke);
+        background: var(--paper);
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.18);
+        position: relative;
+        overflow: hidden;
+        transform: translateY(10px);
+        opacity: 0;
+        animation: popIn 620ms ease forwards;
+        transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: transform;
+      }
+
+      .piece:hover {
+        transform: translateY(-2px) rotate(0.2deg);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
+      }
+      .piece:nth-child(2) {
+        animation-delay: 90ms;
+      }
+      .piece:nth-child(3) {
+        animation-delay: 170ms;
+      }
+      .piece:nth-child(4) {
+        animation-delay: 240ms;
+      }
+      .piece:nth-child(5) {
+        animation-delay: 320ms;
+      }
+      .piece:nth-child(6) {
+        animation-delay: 390ms;
+      }
+
+      @keyframes popIn {
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Polaroid */
+      .polaroid {
+        padding: 14px 14px 16px;
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      .polaroid .img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 12px;
+        display: block;
+        filter: contrast(1.02) saturate(1.05);
+      }
+
+      .polaroid .cap {
+        margin: 10px 2px 0;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        color: rgba(35, 18, 35, 0.88);
+      }
+
+      .tape {
+        position: absolute;
+        width: 92px;
+        height: 22px;
+        background: rgba(255, 246, 160, 0.55);
+        border: 1px solid rgba(60, 20, 45, 0.12);
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%) rotate(-4deg);
+        border-radius: 6px;
+        filter: blur(0.1px);
+      }
+
+      /* Note / message */
+      .note {
+        padding: 16px 16px 14px;
+        background: rgba(255, 255, 255, 0.82);
+      }
+
+      .note::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(225, 90, 140, 0.08),
+          rgba(225, 90, 140, 0.08) 2px,
+          transparent 2px,
+          transparent 28px
+        );
+        opacity: 0.65;
+        pointer-events: none;
+      }
+
+      .note p {
+        position: relative;
+        margin: 0;
+        line-height: 1.65;
+        color: rgba(25, 18, 25, 0.84);
+        font-weight: 700;
+      }
+
+      .note .small {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      /* Layout positions (collage-like) */
+      .p1 {
+        grid-column: 1 / span 4;
+        grid-row: 1 / span 9;
+        transform: rotate(-2.5deg) translateY(10px);
+      }
+      .n1 {
+        grid-column: 5 / span 5;
+        grid-row: 1 / span 7;
+      }
+      .p2 {
+        grid-column: 10 / span 3;
+        grid-row: 1 / span 7;
+        transform: rotate(2.2deg) translateY(10px);
+      }
+      .n2 {
+        grid-column: 1 / span 6;
+        grid-row: 10 / span 6;
+      }
+      .p3 {
+        grid-column: 7 / span 3;
+        grid-row: 8 / span 8;
+        transform: rotate(-1.6deg) translateY(10px);
+      }
+      .p4 {
+        grid-column: 10 / span 3;
+        grid-row: 8 / span 8;
+        transform: rotate(1.4deg) translateY(10px);
+      }
+
+      /* Doodles */
+      .doodle {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.65;
+      }
+
+      @media (max-width: 940px) {
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .actions {
+          width: 100%;
+          justify-content: flex-start;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+          grid-auto-rows: auto;
+        }
+        .p1,
+        .n1,
+        .p2,
+        .n2,
+        .p3,
+        .p4 {
+          grid-column: auto;
+          grid-row: auto;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body data-vfx="hearts" data-vfx-count="18" data-theme-ready="0">
+    <main class="page" role="main">
+      <header class="topbar" aria-label="Memories header">
+        <div>
+          <h1 class="title">Our Memories</h1>
+          <p class="subtitle">little moments that turned into forever feelings</p>
+        </div>
+
+        <nav class="actions" aria-label="Page actions">
+          <a class="v-btn btn" href="anniversary.html">Back</a>
+          <a class="v-btn btn primary" href="memories-2.html">More memories</a>
+        </nav>
+      </header>
+
+      <section class="board" aria-label="Memory board">
+        <svg class="doodle" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true">
+          <path
+            d="M110 90 C170 50, 260 60, 300 110"
+            fill="none"
+            stroke="rgba(140, 40, 85, 0.45)"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+          <path
+            d="M290 108 l18 -10 l-6 18"
+            fill="none"
+            stroke="rgba(140, 40, 85, 0.45)"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M720 120 C780 70, 870 80, 910 130"
+            fill="none"
+            stroke="rgba(140, 40, 85, 0.35)"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+          <path
+            d="M902 128 l18 -10 l-6 18"
+            fill="none"
+            stroke="rgba(140, 40, 85, 0.35)"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M470 620 C520 590, 590 590, 640 620"
+            fill="none"
+            stroke="rgba(140, 40, 85, 0.28)"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+          <path
+            d="M520 585 C545 560, 575 560, 600 585"
+            fill="none"
+            stroke="rgba(140, 40, 85, 0.28)"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+        </svg>
+
+        <div class="grid">
+          <article class="piece polaroid p1">
+            <div class="tape" aria-hidden="true"></div>
+            <video
+              class="img"
+              src="video/Roblox-2025-10-23T03_22_33.653Z.mp4"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="metadata"
+            ></video>
+            <div class="cap">My favorite place is next to you.</div>
+          </article>
+
+          <article class="piece note n1">
+            <p>
+              I still remember how our simple moments started feeling like home. Even when life gets busy,
+              you always make everything softer just by being you.
+            </p>
+            <p class="small">Thank you for choosing me, again and again.</p>
+          </article>
+
+          <article class="piece polaroid p2">
+            <div class="tape" aria-hidden="true"></div>
+            <img class="img" src="image/Screenshot_222.png" alt="A sweet photo of us" loading="lazy" />
+            <div class="cap">You + me = my happiest memory.</div>
+          </article>
+
+          <article class="piece note n2">
+            <p>
+              Some memories are loud, some are quiet… but the best ones always have you in them.
+              I love our laughs, our silly moments, and even the calm silence.
+            </p>
+            <p class="small">I’m proud of us.</p>
+          </article>
+
+          <article class="piece polaroid p3">
+            <div class="tape" aria-hidden="true"></div>
+            <img class="img" src="image/image-7.png" alt="A cute moment we shared" loading="lazy" />
+            <div class="cap">Every day with you feels special.</div>
+          </article>
+
+          <article class="piece polaroid p4">
+            <div class="tape" aria-hidden="true"></div>
+            <video
+              class="img"
+              src="video/Roblox-2025-10-22T03_17_14.638Z.mp4"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="metadata"
+            ></video>
+            <div class="cap">More chapters, more us.</div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="theme.js"></script>
+  </body>
+</html>

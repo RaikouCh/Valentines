@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentine’s Letter</title>
+     <meta name="theme-color" content="#ff4d8d" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="theme.css" />
+    <style>
+      :root {
+        --pink1: #f7b1c8;
+        --pink2: #d884b1;
+        --cream: #fbf7f7;
+        --ink: rgba(25, 18, 25, 0.88);
+        --muted: rgba(25, 18, 25, 0.62);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: Delius, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(900px 600px at 25% 10%, rgba(255, 255, 255, 0.28), transparent 56%),
+          radial-gradient(900px 600px at 80% 35%, rgba(255, 255, 255, 0.18), transparent 58%),
+          linear-gradient(180deg, var(--pink1), var(--pink2));
+      }
+
+      .page {
+        min-height: 100svh;
+        display: grid;
+        grid-template-columns: 1fr 1.15fr;
+      }
+
+      /* Left */
+      .left {
+        background: var(--cream);
+        position: relative;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
+      .left::before,
+      .left::after {
+        content: "";
+        position: absolute;
+        inset: -120px;
+        background:
+          radial-gradient(closest-side at 20% 25%, rgba(255, 77, 141, 0.18), transparent 60%),
+          radial-gradient(closest-side at 80% 65%, rgba(216, 132, 177, 0.22), transparent 58%),
+          radial-gradient(closest-side at 55% 85%, rgba(255, 116, 166, 0.16), transparent 60%);
+        transform: rotate(-8deg);
+      }
+
+      .left::after {
+        inset: -160px;
+        opacity: 0.6;
+        transform: rotate(10deg);
+      }
+
+      .left-inner {
+        position: relative;
+        width: min(560px, 92%);
+        text-align: center;
+        padding: 34px 18px;
+      }
+
+      .photo {
+        width: min(380px, 84vw);
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 26px;
+        border: 10px solid rgba(255, 255, 255, 0.85);
+        box-shadow: 0 22px 55px rgba(0, 0, 0, 0.18);
+        display: block;
+        margin: 0 auto;
+        transform: translateY(10px) rotate(-0.4deg);
+        opacity: 0;
+        animation: floatIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+
+      .photo::selection {
+        background: rgba(255, 77, 141, 0.18);
+      }
+
+      @keyframes floatIn {
+        to {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+      }
+
+      .photo-wrap {
+        position: relative;
+        width: min(380px, 84vw);
+        margin: 0 auto;
+        filter: drop-shadow(0 26px 70px rgba(0, 0, 0, 0.22));
+        animation: slowSway 3.8s ease-in-out infinite;
+      }
+
+      @keyframes slowSway {
+        0% {
+          transform: rotate(-0.4deg) translateY(0);
+        }
+        50% {
+          transform: rotate(0.7deg) translateY(-3px);
+        }
+        100% {
+          transform: rotate(-0.4deg) translateY(0);
+        }
+      }
+
+      .photo-wrap::before {
+        content: "";
+        position: absolute;
+        inset: -18px;
+        border-radius: 34px;
+        background:
+          radial-gradient(circle at 25% 18%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.14) 58%, transparent 78%),
+          radial-gradient(circle at 70% 60%, rgba(255, 77, 141, 0.16), transparent 62%);
+        opacity: 0.8;
+        pointer-events: none;
+      }
+
+      .years {
+        margin: 18px 0 0;
+        font-size: clamp(18px, 2.2vw, 26px);
+        letter-spacing: 0.8px;
+        color: rgba(25, 18, 25, 0.78);
+        font-weight: 700;
+        opacity: 0;
+        transform: translateY(8px);
+        animation: floatIn 680ms cubic-bezier(0.2, 0.8, 0.2, 1) 180ms forwards;
+      }
+
+      .years small {
+        display: block;
+        margin-top: 8px;
+        color: rgba(25, 18, 25, 0.6);
+        font-weight: 900;
+        letter-spacing: 0.2px;
+        font-size: 13px;
+      }
+
+      /* Right */
+      .right {
+        background: linear-gradient(180deg, var(--pink1), var(--pink2));
+        display: grid;
+        place-items: center;
+        padding: 28px 18px;
+      }
+
+      .paper {
+        width: min(720px, 100%);
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(60, 20, 45, 0.15);
+        border-radius: 18px;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+        padding: 22px 18px 18px;
+        position: relative;
+        transform: translateY(12px);
+        opacity: 0;
+        animation: paperIn 720ms cubic-bezier(0.2, 0.85, 0.2, 1) 80ms forwards;
+      }
+
+      @keyframes paperIn {
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .paper .stamp {
+        position: absolute;
+        right: 14px;
+        top: 14px;
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        background: rgba(255, 77, 141, 0.12);
+        border: 1px dashed rgba(140, 40, 85, 0.25);
+        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.12);
+        transform: rotate(6deg);
+      }
+
+      .paper .stamp::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 18px;
+        height: 18px;
+        transform: translate(-50%, -45%) rotate(45deg);
+        border-radius: 4px;
+        background: rgba(255, 77, 141, 0.45);
+        box-shadow: 0 0 0 5px rgba(255, 77, 141, 0.14);
+      }
+
+      .paper .stamp::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 18px;
+        height: 18px;
+        transform: translate(-78%, -45%);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.75);
+        opacity: 0.9;
+        filter: blur(0.1px);
+      }
+
+      .paper::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 18px;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(225, 90, 140, 0.08),
+          rgba(225, 90, 140, 0.08) 2px,
+          transparent 2px,
+          transparent 28px
+        );
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      .paper-head {
+        position: relative;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed rgba(60, 20, 45, 0.2);
+      }
+
+      .paper-title {
+        margin: 0;
+        font-size: clamp(20px, 2.6vw, 30px);
+        letter-spacing: 0.3px;
+      }
+
+      .paper-sub {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .message {
+        position: relative;
+        width: 100%;
+        margin-top: 14px;
+        min-height: min(56vh, 560px);
+        resize: vertical;
+        border: none;
+        outline: none;
+        border-radius: 14px;
+        padding: 14px 14px;
+        background: rgba(255, 255, 255, 0.0);
+        color: rgba(25, 18, 25, 0.92);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .message[readonly] {
+        cursor: default;
+      }
+
+      .message:focus {
+        box-shadow: 0 0 0 4px rgba(255, 77, 141, 0.22);
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .footer {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .btn {
+        font-weight: 900;
+      }
+
+      .note {
+        color: rgba(40, 20, 40, 0.62);
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      @media (max-width: 920px) {
+        .page {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body data-vfx="sparkles" data-vfx-count="12" data-theme-ready="0">
+    <main class="page" role="main">
+      <section class="left" aria-label="Photo and years">
+        <div class="left-inner">
+          <div class="photo-wrap" aria-label="Our photo">
+            <img
+              class="photo"
+              src="image/RobloxScreenShot20260213_161850340.png"
+              alt="Valentine picture"
+              loading="eager"
+            />
+          </div>
+          <div class="years">
+            2021-2026
+            <small>and still, my favorite chapter is you</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="right" aria-label="Love letter">
+        <div class="paper">
+          <div class="stamp" aria-hidden="true"></div>
+          <div class="paper-head">
+            <h1 class="paper-title">My Valentine Letter for my Mahal ko Riri</h1>
+            <p class="paper-sub"></p>
+          </div>
+
+          <textarea class="message" aria-label="Love message" readonly>
+ I love you so much. You are the best person I have ever met, and I am truly grateful to have you in my life. From the moment you became part of my world, everything started to feel more meaningful and more complete. I hope we can be together forever, because loving you is something I never want to stop doing. I love you more than words can ever express, and I am so happy and proud to have you as my Valentine.
+
+Kahit pandemic tayo nagsimula, kahit marami tayong problema, maraming pagsubok, maraming away, at maraming gulo along the way… we still made it this far. And for me, that means so much. Sobrang blessing sa buhay ko na sa kabila ng lahat ng nangyari, lagi pa rin nating pinipili ang isa’t isa. Hindi naging madali ang journey natin, pero pinili nating manatili, umintindi, at magmahal at doon ako lalong napapahanga sa atin.
+
+We have shared so many memories together simple moments, happy times, even difficult days and I cherish all of them because kasama kita. We continue to grow, to learn, and to understand each other more. Even after all these years, I still find myself falling in love with you again and again. Hindi nauubos yung nararamdaman ko para sa’yo. If anything, it becomes deeper and stronger as time goes by.
+
+I want you to know that I am always committed to you. I will keep choosing you not just today, not just on Valentine’s Day, but every day. You are very important to me, and I truly appreciate everything about you your kindness, your strength, your imperfections, your real self. We accept each other for who we are, with all our flaws and imperfections, and that kind of love is something I will always treasure.
+
+Thank you for staying. Thank you for loving me. Thank you for being you.
+
+From mid 2021 until now… and for all the days still to come… I am grateful it’s you.
+
+As always, I love you so much from the bottom of my heart.
+Mahal na mahal kita, Riri. ❤️
+
+Happy Valentine’s Day and Happy Anniversary to us.
+          </textarea>
+
+          <div class="footer">
+            <a class="v-btn btn" href="anniversary.html">Back</a>
+            <div class="note"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="theme.js"></script>
+  </body>
+</html>

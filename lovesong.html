@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love Song</title>
+    <meta name="theme-color" content="#ff4d8d" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="theme.css" />
+    <style>
+      :root {
+        --pink-1: #f7b1c8;
+        --pink-2: #d884b1;
+        --ink: rgba(25, 18, 25, 0.9);
+        --muted: rgba(25, 18, 25, 0.6);
+        --stroke: rgba(60, 20, 45, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: Delius, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(900px 600px at 18% 10%, rgba(255, 255, 255, 0.22), transparent 58%),
+          radial-gradient(900px 600px at 82% 38%, rgba(255, 255, 255, 0.18), transparent 58%),
+          linear-gradient(180deg, var(--pink-1), var(--pink-2));
+        overflow: hidden;
+      }
+
+      /* Big soft heart in the background (subtle) */
+      .bg-heart {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        display: grid;
+        place-items: center;
+        z-index: 0;
+        opacity: 0.6;
+      }
+
+      .bg-heart::before {
+        content: "";
+        width: min(80vmin, 620px);
+        height: min(80vmin, 620px);
+        transform: rotate(45deg);
+        border-radius: 44px;
+        background:
+          radial-gradient(closest-side at 25% 25%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.08) 62%,
+            rgba(255, 255, 255, 0.05) 100%),
+          linear-gradient(180deg, rgba(255, 77, 141, 0.18), rgba(255, 77, 141, 0.06));
+        box-shadow: 0 35px 120px rgba(0, 0, 0, 0.18);
+        animation: heartBreathe 2.9s ease-in-out infinite;
+      }
+
+      @keyframes heartBreathe {
+        0% {
+          transform: rotate(45deg) scale(1);
+        }
+        50% {
+          transform: rotate(45deg) scale(1.02);
+        }
+        100% {
+          transform: rotate(45deg) scale(1);
+        }
+      }
+
+
+      .page {
+        position: relative;
+        z-index: 1;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 24px 18px;
+      }
+
+      .wrap {
+        width: min(1100px, 100%);
+        display: grid;
+        grid-template-columns: 1.45fr 0.9fr;
+        gap: clamp(14px, 2.6vw, 26px);
+        align-items: start;
+      }
+
+      .panel {
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 22px;
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(8px);
+        overflow: hidden;
+      }
+
+      /* Left: YouTube player card (like screenshot) */
+      .player-card {
+        padding: 18px;
+        position: relative;
+      }
+
+      .headline {
+        margin: 4px 0 10px;
+        font-size: clamp(28px, 4.2vw, 50px);
+        letter-spacing: 0.3px;
+        text-align: center;
+      }
+
+      .sub {
+        margin: 0 0 12px;
+        color: rgba(255, 255, 255, 0.88);
+        font-weight: 800;
+        letter-spacing: 0.35px;
+        text-align: center;
+      }
+
+      .screen {
+        background: rgba(255, 255, 255, 0.92);
+        border: 2px solid rgba(40, 20, 40, 0.2);
+        border-radius: 26px;
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.22);
+        overflow: hidden;
+      }
+
+      .screen-inner {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 14px;
+      }
+
+      .yt {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: 0;
+        display: block;
+        border-radius: 16px;
+        background: #111;
+      }
+
+      .yt-note {
+        margin: 10px 2px 0;
+        color: rgba(40, 20, 40, 0.65);
+        font-weight: 900;
+        font-size: 13px;
+      }
+
+      .btn-row {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .btn {
+        font-weight: 900;
+      }
+
+      /* Right: pinned photo strip */
+      .side {
+        padding: 18px 16px;
+      }
+
+      .pin-title {
+        margin: 2px 0 12px;
+        text-align: center;
+        font-weight: 900;
+        letter-spacing: 0.25px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .polaroid {
+        position: relative;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(40, 20, 40, 0.18);
+        border-radius: 16px;
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.18);
+        padding: 12px 12px 14px;
+        margin: 12px auto;
+        max-width: 320px;
+      }
+
+      .polaroid:nth-child(2) {
+        transform: rotate(1.2deg);
+      }
+
+      .polaroid:nth-child(3) {
+        transform: rotate(-1.5deg);
+      }
+
+      .clip {
+        position: absolute;
+        left: 18px;
+        top: -10px;
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        border: 2px solid rgba(50, 20, 40, 0.24);
+        background: rgba(255, 255, 255, 0.65);
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+      }
+
+      .polaroid img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+        border-radius: 12px;
+      }
+
+      .cap {
+        margin: 10px 2px 0;
+        font-weight: 900;
+        color: rgba(35, 18, 35, 0.86);
+        letter-spacing: 0.2px;
+        text-align: center;
+      }
+
+      @media (max-width: 960px) {
+        .wrap {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body data-vfx="hearts" data-vfx-count="16" data-theme-ready="0">
+    <div class="bg-heart" aria-hidden="true"></div>
+
+    <main class="page" role="main">
+      <div class="wrap" aria-label="Love song layout">
+        <section class="panel player-card" aria-label="Music player">
+          <h1 class="headline">Happy Valentines Day</h1>
+          <p class="sub">Play our song and then open your surprise</p>
+
+          <div class="screen" aria-label="YouTube screen">
+            <div class="screen-inner">
+              <!--
+                IMPORTANT:
+                Replace ONLY the video id inside the iframe URL below.
+                Example:
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?..."
+
+                If you want it to autoplay, YouTube usually requires mute=1.
+              -->
+              <iframe
+                class="yt"
+                title="Love song"
+                src="https://www.youtube-nocookie.com/embed/3MFMBC2P8Oc?rel=0&modestbranding=1&playsinline=1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+
+              <p class="yt-note">
+                If you ever see “refused to connect”, that happens when the URL is a normal “watch” link.
+                This page uses an <b>embed</b> URL so it can load inside the card.
+              </p>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <a class="v-btn btn" href="anniversary.html">Back</a>
+            <a
+              class="v-btn btn"
+              href="https://www.youtube.com/watch?v=3MFMBC2P8Oc"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open song on YouTube</a
+            >
+            <a class="v-btn btn primary" href="surprise.html">Click here to see your surprise</a>
+          </div>
+        </section>
+
+        <aside class="panel side" aria-label="Our photos">
+          <div class="pin-title">Us</div>
+
+          <div class="polaroid">
+            <div class="clip" aria-hidden="true"></div>
+            <img src="image/raw.png" alt="Our picture" loading="eager" />
+            <div class="cap">My favorite person.</div>
+          </div>
+
+          <div class="polaroid">
+            <div class="clip" aria-hidden="true"></div>
+            <img src="image/Screenshot_20251103-213011.jpg" alt="Another picture of us" loading="lazy" />
+            <div class="cap">Always you.</div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <script src="theme.js"></script>
+  </body>
+</html>

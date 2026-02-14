@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flowers For You</title>
+    <meta name="theme-color" content="#ff4d8d" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="theme.css" />
+    <style>
+      :root {
+        --pink-1: #f7b1c8;
+        --pink-2: #d884b1;
+        --ink: rgba(25, 18, 25, 0.9);
+        --muted: rgba(25, 18, 25, 0.62);
+        --paper: rgba(255, 255, 255, 0.86);
+        --stroke: rgba(60, 20, 45, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: Delius, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(900px 600px at 18% 10%, rgba(255, 255, 255, 0.22), transparent 58%),
+          radial-gradient(900px 600px at 82% 38%, rgba(255, 255, 255, 0.18), transparent 58%),
+          linear-gradient(180deg, var(--pink-1), var(--pink-2));
+        overflow-x: hidden;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 26px 18px 44px;
+      }
+
+      .wrap {
+        width: min(1100px, 100%);
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+        gap: clamp(16px, 2.8vw, 28px);
+        align-items: center;
+      }
+
+      .bouquet-panel {
+        display: grid;
+        place-items: center;
+        padding-top: 0;
+      }
+
+      .bouquet {
+        width: min(440px, 100%);
+        position: relative;
+        filter: drop-shadow(0 26px 70px rgba(0, 0, 0, 0.22));
+        animation: sway 3.6s ease-in-out infinite;
+      }
+
+      @keyframes sway {
+        0% {
+          transform: rotate(-0.6deg) translateY(0);
+        }
+        50% {
+          transform: rotate(0.9deg) translateY(-3px);
+        }
+        100% {
+          transform: rotate(-0.6deg) translateY(0);
+        }
+      }
+
+      .flowers {
+        position: absolute;
+        left: 50%;
+        top: -28px;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 260px;
+        pointer-events: none;
+      }
+
+      .flower {
+        position: absolute;
+        width: 108px;
+        height: 108px;
+      }
+
+      .flower::before {
+        content: "";
+        position: absolute;
+        inset: -18px;
+        border-radius: 999px;
+        background:
+          radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.35) 55%,
+            rgba(255, 255, 255, 0.12) 100%),
+          radial-gradient(circle at 70% 60%, rgba(255, 77, 141, 0.25), transparent 55%);
+        opacity: 0.85;
+        filter: blur(0.2px);
+      }
+
+      .flower .pic {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 999px;
+        object-fit: cover;
+        border: 8px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.16);
+      }
+
+      .flower .spark {
+        position: absolute;
+        right: -8px;
+        top: -10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow:
+          0 0 0 5px rgba(255, 255, 255, 0.22),
+          0 0 28px rgba(255, 255, 255, 0.35);
+        opacity: 0.65;
+        animation: twinkle 2.6s ease-in-out infinite;
+      }
+
+      @keyframes twinkle {
+        0% {
+          transform: scale(0.9);
+          opacity: 0.45;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+        100% {
+          transform: scale(0.9);
+          opacity: 0.45;
+        }
+      }
+
+      /* Paper wrap */
+      .wrap-paper {
+        position: relative;
+        margin-top: 140px;
+        height: 340px;
+      }
+
+      .paper {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(40, 20, 40, 0.16);
+        border-radius: 26px;
+        clip-path: polygon(12% 0%, 88% 0%, 100% 18%, 74% 60%, 50% 100%, 26% 60%, 0% 18%);
+      }
+
+      .paper::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 26px;
+        background:
+          radial-gradient(closest-side at 18% 22%, rgba(255, 77, 141, 0.12), transparent 60%),
+          radial-gradient(closest-side at 80% 36%, rgba(216, 132, 177, 0.12), transparent 62%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.72));
+        opacity: 0.9;
+        pointer-events: none;
+      }
+
+      .paper-fold {
+        position: absolute;
+        left: 50%;
+        top: 20px;
+        transform: translateX(-50%);
+        width: 74%;
+        height: 72%;
+        background: rgba(255, 255, 255, 0.4);
+        border: 1px dashed rgba(40, 20, 40, 0.16);
+        border-radius: 22px;
+        clip-path: polygon(0% 10%, 100% 10%, 82% 52%, 50% 100%, 18% 52%);
+        opacity: 0.55;
+      }
+
+      /* Ribbon */
+      .ribbon {
+        position: absolute;
+        left: 50%;
+        bottom: 44px;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 84px;
+        pointer-events: none;
+      }
+
+      .bow {
+        position: absolute;
+        left: 50%;
+        top: 22px;
+        transform: translateX(-50%);
+        width: 70px;
+        height: 28px;
+        background: rgba(255, 77, 141, 0.3);
+        border: 1px solid rgba(140, 40, 85, 0.22);
+        border-radius: 999px;
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.14);
+      }
+
+      .bow::before,
+      .bow::after {
+        content: "";
+        position: absolute;
+        width: 54px;
+        height: 44px;
+        top: -8px;
+        background: rgba(255, 77, 141, 0.24);
+        border: 1px solid rgba(140, 40, 85, 0.22);
+        border-radius: 14px 44px 44px 14px;
+      }
+
+      .bow::before {
+        left: -44px;
+        transform: rotate(12deg);
+      }
+
+      .bow::after {
+        right: -44px;
+        transform: rotate(-12deg);
+        border-radius: 44px 14px 14px 44px;
+      }
+
+      .tail {
+        position: absolute;
+        left: 50%;
+        top: 46px;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 46px;
+        background: rgba(255, 77, 141, 0.22);
+        border: 1px solid rgba(140, 40, 85, 0.22);
+        border-radius: 12px;
+      }
+
+      .tail::before,
+      .tail::after {
+        content: "";
+        position: absolute;
+        top: 18px;
+        width: 32px;
+        height: 34px;
+        background: rgba(255, 77, 141, 0.2);
+        border: 1px solid rgba(140, 40, 85, 0.22);
+        border-radius: 10px;
+        clip-path: polygon(0 0, 100% 0, 70% 100%, 30% 100%);
+      }
+
+      .tail::before {
+        left: -36px;
+        transform: rotate(8deg);
+      }
+
+      .tail::after {
+        right: -36px;
+        transform: rotate(-8deg);
+      }
+
+      /* Right panel */
+      .text-panel {
+        width: 100%;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(255, 255, 255, 0.42);
+        border-radius: 24px;
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.25);
+        padding: clamp(18px, 2.8vw, 28px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(225, 90, 140, 0.08),
+          rgba(225, 90, 140, 0.08) 2px,
+          transparent 2px,
+          transparent 28px
+        );
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      .card-inner {
+        position: relative;
+      }
+
+      .title {
+        margin: 0;
+        font-size: clamp(30px, 4.2vw, 60px);
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        font-weight: 900;
+      }
+
+      .message {
+        margin: 12px 0 0;
+        font-weight: 800;
+        line-height: 1.75;
+        color: rgba(25, 18, 25, 0.84);
+        max-width: 56ch;
+      }
+
+      .sig {
+        margin: 14px 0 0;
+        color: var(--muted);
+        font-weight: 900;
+      }
+
+      .btn-row {
+        position: relative;
+        margin-top: 18px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        font-weight: 900;
+      }
+
+      .btn.primary {
+        background: rgba(255, 255, 255, 0.34);
+        border-color: rgba(255, 255, 255, 0.55);
+        animation: pulse 1.9s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-1px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 940px) {
+        .wrap {
+          grid-template-columns: 1fr;
+        }
+        .bouquet {
+          width: min(420px, 92vw);
+        }
+
+        .bouquet-panel {
+          padding-top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body data-vfx="petals" data-vfx-count="18" data-theme-ready="0">
+    <main class="page" role="main">
+      <div class="wrap" aria-label="Gift layout">
+        <section class="bouquet-panel" aria-label="Bouquet">
+          <div class="bouquet" aria-label="Flowers bouquet">
+            <div class="flowers" aria-hidden="true">
+              <div class="flower" style="left: 40px; top: 86px; transform: rotate(-10deg)">
+                <img class="pic" src="image/Genshin_Impact_4_12_2024_10_33_40_AM.png" alt="" />
+                <span class="spark" aria-hidden="true"></span>
+              </div>
+              <div class="flower" style="left: 156px; top: 26px; transform: rotate(6deg); width: 120px; height: 120px">
+                <img class="pic" src="image/RobloxScreenShot20250606_194949271-1.png" alt="" />
+                <span class="spark" aria-hidden="true"></span>
+              </div>
+              <div class="flower" style="left: 284px; top: 92px; transform: rotate(-2deg)">
+                <img class="pic" src="image/RobloxScreenShot20250606_184043234-1.png" alt="" />
+                <span class="spark" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="wrap-paper" aria-hidden="true">
+              <div class="paper"></div>
+              <div class="paper-fold"></div>
+              <div class="ribbon">
+                <div class="bow"></div>
+                <div class="tail"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="text-panel" aria-label="Gift message">
+          <div class="card">
+            <div class="card-inner">
+              <h1 class="title">Flowers for you!</h1>
+              <p class="message">
+                Every flower i see reminds me of your smile, your warmth, the way you light up everything around you.
+                It’s like you turn ordinary days into something soft and beautiful.
+                Even in the smallest things, I see you… and I feel so lucky to have you in my life.
+                Just like flowers, you make my world brighter and my heart fuller.
+              </p>
+              <p class="sig">— Always yours Mahal ko Keysha</p>
+
+              <div class="btn-row" aria-label="Navigation">
+                <a class="v-btn btn" href="anniversary.html">Back</a>
+                <a class="v-btn btn primary" href="valentines.html">Read my letter</a>
+                <a class="v-btn btn" href="memories.html">Memories</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="theme.js"></script>
+  </body>
+</html>
