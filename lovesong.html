@@ -34,7 +34,10 @@
           radial-gradient(900px 600px at 18% 10%, rgba(255, 255, 255, 0.22), transparent 58%),
           radial-gradient(900px 600px at 82% 38%, rgba(255, 255, 255, 0.18), transparent 58%),
           linear-gradient(180deg, var(--pink-1), var(--pink-2));
-        overflow: hidden;
+        /* Allow vertical scrolling (mobile content can be taller than the viewport) */
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       /* Big soft heart in the background (subtle) */
@@ -226,6 +229,11 @@
       @media (max-width: 960px) {
         .wrap {
           grid-template-columns: 1fr;
+        }
+
+        /* Extra safety: ensure the centered layout doesn't prevent scroll on small screens */
+        .page {
+          place-items: start;
         }
       }
     </style>
